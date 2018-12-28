@@ -1,0 +1,2 @@
+# GoPractice
+simple review Golang
