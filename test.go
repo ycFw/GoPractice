@@ -2,15 +2,23 @@ package main
 
 import (
 	"fmt"
-	"sync"
+	"io"
+	"strings"
 )
 
 func main() {
-	var wg sync.WaitGroup
-	defer wg.Wait()
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		fmt.Println("hello there")
-	}()
+	reader := strings.NewReader("I love my mother.")
+	p := make([]byte, 2)
+
+	for {
+		n, err := reader.Read(p)
+		if err != nil {
+			if err == io.EOF {
+				fmt.Println("EOF: ", n)
+				break
+			}
+			fmt.Println("err =", err)
+		}
+		fmt.Println(n, string(p[:n]))
+	}
 }
