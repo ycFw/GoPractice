@@ -12,6 +12,7 @@ type alphaReader struct {
 	cur int    //读取到当前位置
 }
 
+//创建一个实例
 func newAlphaReader(src string) *alphaReader {
 	return &alphaReader{src: src}
 }
@@ -30,9 +31,11 @@ func (a *alphaReader) Read(p []byte) (int, error) {
 	if a.cur >= len(a.src) {
 		return 0, io.EOF
 	}
+
 	//x是剩余未读取的长度
 	x := len(a.src) - a.cur
-	n, bound := 0, 0
+	n, bound := 0, 0 //n是起始位置，bound 是每次输出的长度
+
 	if x >= len(p) {
 		//剩余长度超过缓冲区大小，说明本次可完全填满缓冲区
 		bound = len(p)
