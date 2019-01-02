@@ -17,7 +17,10 @@ func main() {
 	// BubbleSort(buf)
 	// SelectionSort(buf)
 	// InsertSort(buf)
-	MergeSort(buf)
+	// MergeSort(buf)
+	// HeapSort(buf)
+	// QuickSort(buf)
+	HillSorting(buf)
 
 	fmt.Printf("排序后: %v\n", buf)
 }
@@ -113,5 +116,109 @@ func mergeArray(a []int, first, middle, end int, tmp []int) {
 }
 
 //希尔排序
+func HillSorting(buf []int) []int {
+	times := 0
+	tmp := 0
+	length := len(buf)
+	incre := length
+	// fmt.Println("buf: ", buf)
+	for {
+		incre /= 2
+		for k := 0; k < incre; k++ { //根据增量分为若干子序列
+			for i := k + incre; i < length; i += incre {
+				for j := i; j > k; j -= incre {
+					// fmt.Println("j: ", j, " data: ", buf[j], " j-incre: ", j-incre, " data: ", buf[j-incre])
+					times++
+					if buf[j] < buf[j-incre] {
+						tmp = buf[j-incre]
+						buf[j-incre] = buf[j]
+						buf[j] = tmp
+					} else {
+						break
+					}
+				}
+				// fmt.Println("middle: ", buf)
+			}
+			// fmt.Println("outer: ", buf)
+		}
+		// fmt.Println("outer outer: ", buf, " incre: ", incre)
+
+		if incre == 1 {
+			break
+		}
+	}
+	// fmt.Println("after: ", buf)
+	fmt.Printf("排序次数: %d\n", times)
+	return buf
+}
+
 //快速排序
+func QuickSort(buf []int) []int {
+	quick(buf, 0, len(buf)-1)
+	return buf
+}
+
+func quick(a []int, l, r int) {
+	if l >= r {
+		return
+	}
+	i, j, key := l, r, a[l] //选择第一个数为key
+	for i < j {
+		for i < j && a[j] > key { //从右向左找第一个小于key的值
+			j--
+		}
+		if i < j {
+			a[i] = a[j]
+			i++
+		}
+
+		for i < j && a[i] < key { //从左向右找第一个大于key的值
+			i++
+		}
+		if i < j {
+			a[j] = a[i]
+			j--
+		}
+	}
+	//i == j
+	a[i] = key
+	quick(a, l, i-1)
+	quick(a, i+1, r)
+}
+
 //堆排序
+func HeapSort(buf []int) []int {
+	temp, n := 0, len(buf)
+
+	for i := (n - 1) / 2; i >= 0; i-- {
+		MinHeapFixdown(buf, i, n)
+	}
+
+	for i := n - 1; i > 0; i-- {
+		temp = buf[0]
+		buf[0] = buf[i]
+		buf[i] = temp
+		MinHeapFixdown(buf, 0, i)
+	}
+	return buf
+}
+
+func MinHeapFixdown(a []int, i, n int) {
+	j, temp := 2*i+1, 0
+	for j < n {
+		if j+1 < n && a[j+1] < a[j] {
+			j++
+		}
+
+		if a[i] <= a[j] {
+			break
+		}
+
+		temp = a[i]
+		a[i] = a[j]
+		a[j] = temp
+
+		i = j
+		j = 2*i + 1
+	}
+}
