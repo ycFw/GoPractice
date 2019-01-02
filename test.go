@@ -1,10 +1,14 @@
 package main
 
-func main() {
-	proverbs := []string{
-		"Channels orchestrate mutexes serialize\n",
-		"Cgo is not Go\n",
-		"Errors are values\n",
-		"Don't panic\n",
+import "fmt"
+
+func Sum(len int) int {
+	sum := 0
+	for i := 1; i <= len; i++ {
+		sum += i
 	}
+	return sum
+}
+func main() {
+	fmt.Println(Sum(1000))
 }
