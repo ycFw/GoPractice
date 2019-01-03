@@ -2,7 +2,7 @@
 
 - sync中的状态量cond不是开箱即用的，需要用sync.NewCond函数创建它的指针值
   
-- 比如代码中例子，分别初始化sendCond和recvCond
+- 比如代码中例子，分别初始化sendCond和recvCond变量
 
         sendCond := sync.NewCond(&lock)
         recvCond := sync.NewCond(lock.RLocker())
@@ -13,7 +13,7 @@
             Lock()
             Unlock()
          }
- - sync.mutex 和 sync.rwmutex 这两个类型都有lock()和unlock()方法，但是他们都是指针方法
+- sync.mutex和sync.rwmutex这两个类型都有lock()和unlock()方法，但是他们都是指针方法
 
         func(m *Mutex) Lock()
         func(m *RWMutex) Lock() ...
