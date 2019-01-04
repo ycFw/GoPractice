@@ -1,2 +1,1 @@
-# GoPractice
-simple review Golang
+Simple review Golang
